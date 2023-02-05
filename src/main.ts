@@ -1,7 +1,37 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import {bootstrapApplication} from "@angular/platform-browser";
+import {AppComponent} from "./app/app.component";
+import {provideRouter, Routes} from "@angular/router";
+import {AddTodoComponent} from "./app/pages/add-todo.component";
+import {TodosListComponent} from "./app/pages/todos-list.component";
+import {NotFoundComponent} from "./app/pages/not-found.component";
+import {TodosService} from "./app/services/todos.service";
 
-import { AppModule } from './app/app.module';
+const routes: Routes = [
+  {
+    path: 'todos-list',
+    component: TodosListComponent
+  },
+  {
+    path: 'add-todo',
+    component: AddTodoComponent
+  },
+  {
+    path: 'not-found',
+    component: NotFoundComponent
+  },
+  {
+    path: '',
+    redirectTo: 'todos-list',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found'
+  }
+];
 
-
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(routes)
+  ]
+});
